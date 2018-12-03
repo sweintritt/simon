@@ -3,7 +3,7 @@
 NAME        = simon
 HTML_DOC    = index.html
 PDF_DOC     = simon.pdf
-STYLE_SHEET = index.css
+STYLE_SHEET = public/css/index.css
 SOURCES     = server.go
 REGISTRY    = localhost:5000
 BUILD_DIR   = ./build
@@ -27,8 +27,7 @@ prepare: $(NAME) $(HTML_DOC)
 	mkdir -p $(BUILD_DIR)/public
 	cp $(NAME) $(BUILD_DIR)
 	cp $(HTML_DOC) $(BUILD_DIR)/public
-	cp $(STYLE_SHEET) $(BUILD_DIR)/public
-	cp -r public $(BUILD_DIR)/public
+	cp -r public/* $(BUILD_DIR)/public
 
 docker: $(NAME) prepare
 ifndef VERSION
