@@ -15,6 +15,17 @@ func main() {
 	server := http.FileServer(http.Dir("public"))
 	http.Handle("/", server)
 
+	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 	log.Println("Listening on port", port)
-	http.ListenAndServe(":"+port, nil)
+	err := http.ListenAndServe(":"+port, logRequest(server))
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func logRequest(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("%s %s %s\n", r.RemoteAddr, r.Method, r.URL)
+		h.ServeHTTP(w, r)
+	})
 }

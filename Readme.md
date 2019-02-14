@@ -1,7 +1,8 @@
 Simon
 ======
 
-Simple Online Documentation
+Simple Online Documentation. Generate a HTML page from Markdown and provide it as
+a Docker image using a simple server written in go.
 
 # Requirements
 
@@ -9,7 +10,7 @@ The different build targets require different software to be installed.
 
 * Generation of html requires pandoc
 * Generation of pdf requires pandoc and xelatex
-* The server, which provides the Wiki as a html page required go
+* The server, which provides the Wiki as a html page requires go
 
 To install all requirements on Ubuntu run
 

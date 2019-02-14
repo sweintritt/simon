@@ -3,7 +3,7 @@
 NAME        = simon
 HTML_DOC    = index.html
 PDF_DOC     = simon.pdf
-STYLE_SHEET = public/css/index.css
+STYLE_SHEET = ./public/css/index.css
 SOURCES     = server.go
 REGISTRY    = localhost:5000
 BUILD_DIR   = ./build
@@ -14,10 +14,10 @@ html: $(HTML_DOC)
 
 pdf: $(PDF_DOC)
 
-$(PDF_DOC): index.md
+$(PDF_DOC): public/index.md
 	pandoc $< --number-sections --latex-engine=pdflatex --highlight-style=espresso -o $(PDF_DOC)
 
-$(HTML_DOC): index.md
+$(HTML_DOC): public/index.md
 	pandoc $< --number-sections --highlight-style=espresso -o $(HTML_DOC) -t html5 --standalone --css $(STYLE_SHEET)
 
 $(NAME): $(SOURCES)
