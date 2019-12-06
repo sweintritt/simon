@@ -2,7 +2,8 @@ Simon
 ======
 
 Simple Online Documentation. Generate a HTML page from Markdown and provide it as
-a Docker image using a simple server written in go.
+a Docker image using a simple server written in go. It is possible to add PDF files
+and images to the documentation.
 
 # Requirements
 
