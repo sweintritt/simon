@@ -3,46 +3,44 @@
 NAME        = simon
 HTML_DOC    = index.html
 PDF_DOC     = simon.pdf
-STYLE_SHEET = ./public/css/index.css
+STYLE_SHEET = ./css/index.css
 SOURCES     = server.go
 REGISTRY    = localhost:5000
 BUILD_DIR   = ./build
+VERSION   = $(shell cat VERSION)
 
-all: docker clean
+all: docker
 
 html: $(HTML_DOC)
 
 pdf: $(PDF_DOC)
 
-$(PDF_DOC): public/index.md
-	pandoc $< --number-sections --latex-engine=pdflatex --highlight-style=espresso -o $(PDF_DOC)
-
-$(HTML_DOC): public/index.md
-	pandoc $< --number-sections --highlight-style=espresso -o $(HTML_DOC) -t html5 --standalone --css $(STYLE_SHEET)
-
-$(NAME): $(SOURCES)
-	go build -o $(NAME) *.go
-
-prepare: $(NAME) $(HTML_DOC)
+prepare:
 	mkdir -p $(BUILD_DIR)/public
-	cp $(NAME) $(BUILD_DIR)
-	cp $(HTML_DOC) $(BUILD_DIR)/public
 	cp -r public/* $(BUILD_DIR)/public
 
-docker: $(NAME) prepare
-ifndef VERSION
-	$(error VERSION for docker image is not set. Example: 'make docker VERSION=1.0')
-else
+$(PDF_DOC): public/index.md prepare
+	cd public
+	pandoc $< --number-sections --pdf-engine=pdflatex --highlight-style=espresso -o $(BUILD_DIR)/$(PDF_DOC)
+	cd ..
+
+$(HTML_DOC): public/index.md prepare
+	cd public
+	pandoc $< --number-sections --highlight-style=espresso -o $(BUILD_DIR)/public/$(HTML_DOC) -t html5 --standalone --css $(STYLE_SHEET)
+	cd ..
+
+$(NAME): $(SOURCES) prepare
+	go build -o $(NAME) *.go
+
+prepare-docker: $(NAME) $(HTML_DOC)
+	cp $(NAME) $(BUILD_DIR)
+
+docker: $(NAME) prepare-docker
 	sudo docker build -t $(NAME):$(VERSION) .
-endif
 
 push: docker
-ifndef VERSION
-	$(error VERSION for docker image is not set. Example: 'make push VERSION=1.0')
-else
 	sudo docker tag $(NAME):$(VERSION) $(REGISTRY)/$(NAME):$(VERSION)
 	sudo docker push $(REGISTRY)/$(NAME):$(VERSION)
-endif
 
 clean:
 	rm -f $(NAME)

@@ -12,7 +12,7 @@ func main() {
 	flag.StringVar(&port, "port", port, "Service port")
 	flag.Parse()
 
-	server := http.FileServer(http.Dir("/public"))
+	server := http.FileServer(http.Dir("./public/"))
 	http.Handle("/", server)
 	log.Printf("running on port %s\n", port)
 	err := http.ListenAndServe(":"+port, nil)

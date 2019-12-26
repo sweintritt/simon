@@ -16,10 +16,10 @@
 
 This document is part of the created docker image and served by the go server.
 
-[Free As In Freedom](public/documents/faif-2.0.pdf)
+[Free As In Freedom](documents/faif-2.0.pdf)
 
 ## Second sub-section
 
 <div style="text-align:right;margin-top:-2.5em;margin-bottom:2.5em">[*↑Top*](#table-of-contents)</div>
 
-![Example for a image](public/images/open.jpg)
+![Example for a image](images/open.jpg)
